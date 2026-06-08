@@ -6,6 +6,13 @@ The system automatically handles mobile EXIF orientation, compresses photos on-t
 
 ---
 
+<p align="center">
+  <img src="readme/landingPage.png" width="49%" />
+  <img src="readme/gallery.png" width="49%" />
+</p>
+
+---
+
 ## Key Features
 
 - **Frictionless UX:** Zero-install web app. HTML5 camera constraints trigger the native phone camera instantly.
