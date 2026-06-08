@@ -1,0 +1,32 @@
+<service>
+	<id>weddingphotoshare.exe</id>
+	<name>Wedding Photo Share</name>
+	<description>Self-hosted wedding photo sharing server.</description>
+	<executable>D:\nodejs\node.exe</executable>
+	<argument>--harmony</argument>
+	<argument>C:\Users\matus\Desktop\wedding-photo-share\node_modules\node-windows\lib\wrapper.js</argument>
+	<argument>--file</argument>
+	<argument>C:\Users\matus\Desktop\wedding-photo-share\server.js</argument>
+	<argument>--scriptoptions=</argument>
+	<argument>--log</argument>
+	<argument>Wedding Photo Share wrapper</argument>
+	<argument>--grow</argument>
+	<argument>0.25</argument>
+	<argument>--wait</argument>
+	<argument>1</argument>
+	<argument>--maxrestarts</argument>
+	<argument>3</argument>
+	<argument>--abortonerror</argument>
+	<argument>n</argument>
+	<argument>--stopparentfirst</argument>
+	<argument>undefined</argument>
+	<logmode>rotate</logmode>
+	<stoptimeout>30sec</stoptimeout>
+	<env name="PORT" value="3000"/>
+	<serviceaccount>
+		<domain>DESKTOP-DTPCJQ1</domain>
+		<user>LocalSystem</user>
+		<password></password>
+	</serviceaccount>
+	<workingdirectory>C:\Users\matus\Desktop\wedding-photo-share</workingdirectory>
+</service>

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Miriama & Matúš | Svadobná galéria</title>
+  
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+
+  <style>
+    .font-serif { font-family: 'Cormorant Garamond', Georgia, serif; }
+    .font-sans { font-family: 'Montserrat', sans-serif; }
+  </style>
+</head>
+<body class="bg-[#FAF8F5] text-stone-800 font-sans min-h-screen pb-16 antialiased">
+
+  <header class="text-center pt-16 pb-12 bg-white/60 backdrop-blur-md border-b border-stone-200/60 tracking-wide">
+    <div class="text-stone-400 font-serif italic text-lg mb-2">Naša svadba</div>
+    <h1 class="text-4xl md:text-5xl font-serif font-light text-stone-900 mx-auto max-w-max relative pb-4 after:content-[''] after:absolute after:bottom-0 after:left-1/4 after:right-1/4 after:h-[1px] after:bg-stone-300">
+      Miriama &amp; Matúš
+    </h1>
+    <p class="text-stone-500 font-sans font-light uppercase tracking-widest text-xs mt-4">18.8.2028</p>
+  </header>
+
+  <main class="max-w-md mx-auto px-4 mt-12">
+    <div class="bg-white p-8 rounded-2xl shadow-[0_4px_20px_rgba(0,0,0,0.03)] border border-stone-200/80 text-center relative overflow-hidden">
+      <div class="absolute top-0 left-0 w-8 h-8 border-t border-l border-stone-200 m-3"></div>
+      <div class="absolute top-0 right-0 w-8 h-8 border-t border-r border-stone-200 m-3"></div>
+      
+      <h2 class="text-2xl font-serif text-stone-800 mb-2">Zachyťte moment</h2>
+      <p class="text-stone-400 text-sm font-light mb-6">Pomôžte nám vytvoriť spomienky na tento náš deň fotkami z vašej perspektívy.</p>
+      
+      <label class="block w-full bg-[#C3A38A] hover:bg-[#B29279] text-white font-medium text-sm uppercase tracking-wider py-4 px-6 rounded-full cursor-pointer transition-all duration-300 shadow-sm hover:shadow-md transform hover:-translate-y-0.5">
+        ✨ Zdieľajte fotky
+        <input type="file" id="photo-input" accept="image/*" capture="environment" class="hidden">
+      </label>
+
+      <div id="status" class="mt-4 text-xs tracking-wider uppercase font-medium hidden"></div>
+    </div>
+
+    <section class="mt-16">
+      <div class="flex items-center justify-between border-b border-stone-200 pb-3 mb-6">
+        <h2 class="text-xl font-serif font-semibold text-stone-800 tracking-wide">Galéria fotiek</h2>
+        <span class="text-xs font-light text-stone-400 uppercase tracking-widest">Aktuálne</span>
+      </div>
+      
+      <div id="gallery" class="grid grid-cols-2 gap-4">
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const photoInput = document.getElementById('photo-input');
+    const statusDiv = document.getElementById('status');
+    const galleryDiv = document.getElementById('gallery');
+
+    photoInput.addEventListener('change', async (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      const formData = new FormData();
+      formData.append('photo', file);
+
+      statusDiv.classList.remove('hidden');
+      statusDiv.className = "mt-4 text-xs font-medium tracking-wider uppercase text-amber-600 animate-pulse";
+      statusDiv.innerText = "Developing photo...";
+
+      try {
+        const response = await fetch('/api/upload', {
+          method: 'POST',
+          body: formData
+        });
+
+        const result = await response.json();
+
+        if (response.ok) {
+          statusDiv.className = "mt-4 text-xs font-medium tracking-wider uppercase text-emerald-700";
+          statusDiv.innerText = "Added to the gallery! ✨";
+          fetchGallery();
+        } else {
+          throw new Error(result.error || "Upload failed");
+        }
+      } catch (err) {
+        statusDiv.className = "mt-4 text-xs font-medium tracking-wider uppercase text-rose-700";
+        statusDiv.innerText = `Error: ${err.message}`;
+      }
+    });
+
+    async function fetchGallery() {
+      try {
+        const res = await fetch('/api/photos');
+        const photos = await res.json();
+        
+        galleryDiv.innerHTML = photos.map(photo => `
+          <div class="bg-white p-2.5 rounded-xl shadow-[0_4px_12px_rgba(0,0,0,0.02)] border border-stone-150 group overflow-hidden">
+            <div class="overflow-hidden rounded-lg bg-stone-100 aspect-square">
+              <img src="/uploads/${photo.filename}" 
+                   class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" 
+                   alt="Wedding guest photo"
+                   loading="lazy">
+            </div>
+          </div>
+        `).join('');
+      } catch (err) {
+        console.error("Failed to load gallery", err);
+      }
+    }
+
+    fetchGallery();
+  </script>
+</body>
+</html>
