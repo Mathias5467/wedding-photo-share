@@ -37,7 +37,6 @@ The system automatically handles mobile EXIF orientation, compresses photos on-t
 Open your first **Command Prompt** and run:
 
 ```cmd
-E:
 cd E:\nginx-1.30.2
 start nginx
 ```
@@ -46,7 +45,6 @@ start nginx
 Open new **Command Prompt** , navigate to your app directory and start the Node.js server:
 
 ```cmd
-E:
 cd E:\wedding-photo-share
 node server.js
 ```
@@ -55,6 +53,7 @@ node server.js
 Open a new **Command Prompt** window. This tunnel must remain open and running for the entire duration of the wedding:
 
 ```cmd
+cd E:\
 cloudflared tunnel --url http://localhost:80
 ```
 
