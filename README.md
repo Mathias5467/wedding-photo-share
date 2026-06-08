@@ -7,8 +7,8 @@ The system automatically handles mobile EXIF orientation, compresses photos on-t
 ---
 
 <p align="center">
-  <img src="readme/landingPage.png" width="49%" />
-  <img src="readme/gallery.png" width="49%" />
+  <img src="readme/landingPage.png" width="90%" />
+  <img src="readme/gallery.png" width="90%" />
 </p>
 
 ---
